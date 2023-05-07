@@ -1,6 +1,6 @@
 import "./style.css";
 import Phaser from "phaser";
-import { treeData, lightData, houseData } from "./data";
+import { spriteData, trackData, textList, treeData, lightData, houseData } from "./data";
 
 const getCurveData = (data: number[][]) => {
   const d = (data[0][0] + data[1][0]) / 2;
@@ -68,716 +68,38 @@ class Example extends Phaser.Scene {
   private offsetY = 140;
   private gridSize = 16;
 
-  private trackData: {
-    type: number,
-    data: [[number, number], [number, number]],
-    id?: string,
-    active?: boolean,
-    curveData?: {
-      curve: Phaser.Curves.CubicBezier,
-      points: Phaser.Math.Vector2[],
-      tangents: Phaser.Math.Vector2[]
-    }
-  }[] = [
-      {
-        type: 0,
-        data: [[-4, 14], [4, 14]]
-      },
-      {
-        type: 0,
-        data: [[-4, 18], [4, 18]]
-      },
-      {
-        type: 1,
-        id: 'S01',
-        active: true,
-        data: [[4, 14], [10, 14]]
-      },
-      {
-        type: 1,
-        id: 'S03',
-        active: true,
-        data: [[10, 14], [16, 14]]
-      },
-      {
-        type: 1,
-        id: 'S01',
-        active: false,
-        data: [[4, 14], [10, 16]]
-      },
-      {
-        type: 1,
-        id: 'S03',
-        active: false,
-        data: [[10, 16], [16, 14]]
-      },
-
-      {
-        type: 0,
-        data: [[16, 14], [22, 10]]
-      },
-      {
-        type: 0,
-        data: [[22, 10], [30, 10]]
-      },
-      {
-        type: 1,
-        id: 'S05',
-        active: true,
-        data: [[30, 10], [36, 6]]
-      },
-      {
-        type: 0,
-        data: [[36, 6], [46, 6]]
-      },
-
-      {
-        type: 1,
-        id: 'S07',
-        active: false,
-        data: [[46, 6], [52, 2]]
-      },
-      {
-        type: 0,
-        data: [[52, 2], [60, 2]]
-      },
-      {
-        type: 1,
-        id: 'S11',
-        active: false,
-        data: [[60, 2], [66, 0]]
-      },
-      {
-        type: 1,
-        id: 'S11',
-        active: true,
-        data: [[60, 2], [66, 2]]
-      },
-
-
-
-
-      {
-        type: 1,
-        id: 'S07',
-        active: true,
-        data: [[46, 6], [52, 6]]
-      },
-      {
-        type: 0,
-        data: [[52, 6], [60, 6]]
-      },
-      {
-        type: 1,
-        id: 'S12',
-        active: false,
-        data: [[60, 6], [66, 4]]
-      },
-      {
-        type: 1,
-        id: 'S12',
-        active: true,
-        data: [[60, 6], [66, 6]]
-      },
-
-
-
-
-      {
-        type: 1,
-        id: 'S05',
-        active: false,
-        data: [[30, 10], [36, 13]]
-      },
-      {
-        type: 0,
-        data: [[36, 13], [46, 13]]
-      },
-      {
-        type: 1,
-        id: 'S08',
-        active: false,
-        data: [[46, 13], [52, 10]]
-      },
-      {
-        type: 0,
-        data: [[52, 10], [60, 10]]
-      },
-      {
-        type: 1,
-        id: 'S13',
-        active: false,
-        data: [[60, 10], [66, 8]]
-      },
-      {
-        type: 1,
-        id: 'S13',
-        active: true,
-        data: [[60, 10], [66, 10]]
-      },
-
-
-      {
-        id: 'S08',
-        active: true,
-        type: 1,
-        data: [[46, 13], [52, 14]]
-      },
-      {
-        type: 0,
-        data: [[52, 14], [60, 14]]
-      },
-      {
-        type: 1,
-        id: 'S14',
-        active: false,
-        data: [[60, 14], [66, 12]]
-      },
-      {
-        type: 1,
-        id: 'S14',
-        active: true,
-        data: [[60, 14], [66, 14]]
-      },
-
-
-      {
-        type: 0,
-        data: [[66, 0], [72, 0]]
-      },
-      {
-        type: 0,
-        data: [[66, 2], [72, 2]]
-      },
-      {
-        type: 0,
-        data: [[66, 4], [72, 4]]
-      },
-      {
-        type: 0,
-        data: [[66, 6], [72, 6]]
-      },
-      {
-        type: 0,
-        data: [[66, 8], [72, 8]]
-      },
-      {
-        type: 0,
-        data: [[66, 10], [72, 10]]
-      },
-      {
-        type: 0,
-        data: [[66, 12], [72, 12]]
-      },
-      {
-        type: 0,
-        data: [[66, 14], [72, 14]]
-      },
-
-
-
-
-
-      {
-        type: 1,
-        id: 'S02',
-        active: true,
-        data: [[4, 18], [10, 18]]
-      },
-      {
-        type: 1,
-        id: 'S04',
-        active: true,
-        data: [[10, 18], [16, 18]]
-      },
-      {
-        type: 1,
-        id: 'S02',
-        active: false,
-        data: [[4, 18], [10, 16]]
-      },
-      {
-        type: 1,
-        id: 'S04',
-        active: false,
-        data: [[10, 16], [16, 18]]
-      },
-
-
-
-      {
-        type: 0,
-        data: [[16, 18], [22, 22]]
-      },
-      {
-        type: 0,
-        data: [[22, 22], [30, 22]]
-      },
-      {
-        type: 1,
-        id: 'S06',
-        active: false,
-        data: [[30, 22], [36, 19]]
-      },
-      {
-        type: 0,
-        data: [[36, 19], [46, 19]]
-      },
-
-      {
-        type: 1,
-        id: 'S09',
-        active: true,
-        data: [[46, 19], [52, 18]]
-      },
-      {
-        type: 0,
-        data: [[52, 18], [60, 18]]
-      },
-      {
-        type: 1,
-        id: 'S15',
-        active: false,
-        data: [[60, 18], [66, 20]]
-      },
-      {
-        type: 1,
-        id: 'S15',
-        active: true,
-        data: [[60, 18], [66, 18]]
-      },
-
-
-
-
-      {
-        type: 1,
-        id: 'S09',
-        active: false,
-        data: [[46, 19], [52, 22]]
-      },
-      {
-        type: 0,
-        data: [[52, 22], [60, 22]]
-      },
-      {
-        type: 1,
-        id: 'S16',
-        active: true,
-        data: [[60, 22], [66, 22]]
-      },
-      {
-        type: 1,
-        id: 'S16',
-        active: false,
-        data: [[60, 22], [66, 24]]
-      },
-
-
-
-
-      {
-        type: 1,
-        id: 'S06',
-        active: true,
-        data: [[30, 22], [36, 26]]
-      },
-      {
-        type: 0,
-        data: [[36, 26], [46, 26]]
-      },
-      {
-        type: 1,
-        id: 'S10',
-        active: false,
-        data: [[46, 26], [52, 30]]
-      },
-      {
-        type: 0,
-        data: [[52, 30], [60, 30]]
-      },
-      {
-        type: 1,
-        id: 'S18',
-        active: true,
-        data: [[60, 30], [66, 30]]
-      },
-      {
-        type: 1,
-        id: 'S18',
-        active: false,
-        data: [[60, 30], [66, 32]]
-      },
-
-
-      {
-        type: 1,
-        id: 'S10',
-        active: true,
-        data: [[46, 26], [52, 26]]
-      },
-      {
-        type: 0,
-        data: [[52, 26], [60, 26]]
-      },
-      {
-        type: 1,
-        id: 'S17',
-        active: true,
-        data: [[60, 26], [66, 26]]
-      },
-      {
-        type: 1,
-        id: 'S17',
-        active: false,
-        data: [[60, 26], [66, 28]]
-      },
-
-
-      {
-        type: 0,
-        data: [[66, 18], [72, 18]]
-      },
-      {
-        type: 0,
-        data: [[66, 20], [72, 20]]
-      },
-      {
-        type: 0,
-        data: [[66, 22], [72, 22]]
-      },
-      {
-        type: 0,
-        data: [[66, 24], [72, 24]]
-      },
-      {
-        type: 0,
-        data: [[66, 26], [72, 26]]
-      },
-      {
-        type: 0,
-        data: [[66, 28], [72, 28]]
-      },
-      {
-        type: 0,
-        data: [[66, 30], [72, 30]]
-      },
-      {
-        type: 0,
-        data: [[66, 32], [72, 32]]
-      },
-    ];
-
-  private spriteData = [
-    {
-      id: 'S01',
-      connect: 'S04',
-      exclude: 'S02',
-      type: 0,
-      active: false,
-      data: [[6.5, 14.5], [6, 3]]
-    },
-    {
-      id: 'S02',
-      connect: 'S03',
-      exclude: 'S01',
-      type: 0,
-      active: false,
-      data: [[6.5, 17.5], [6, 3]]
-    },
-    {
-      id: 'S03',
-      connect: 'S02',
-      exclude: 'S01',
-      type: 0,
-      active: false,
-      data: [[12.5, 14.5], [6, 3]]
-    },
-    {
-      id: 'S04',
-      connect: 'S01',
-      exclude: 'S02',
-      type: 0,
-      active: false,
-      data: [[12.5, 17.5], [6, 3]]
-    },
-    {
-      id: 'S05',
-      type: 0,
-      active: false,
-      data: [[32.5, 9.5], [6, 8]]
-    },
-    {
-      id: 'S06',
-      type: 0,
-      active: false,
-      data: [[32.5, 22.5], [6, 8]]
-    },
-    {
-      id: 'S07',
-      type: 0,
-      active: false,
-      data: [[48.5, 4], [6, 5]]
-    },
-    {
-      id: 'S08',
-      type: 0,
-      active: false,
-      data: [[48.5, 12], [6, 5]]
-    },
-    {
-      id: 'S09',
-      type: 0,
-      active: false,
-      data: [[48.5, 20], [6, 5]]
-    },
-    {
-      id: 'S10',
-      type: 0,
-      active: false,
-      data: [[48.5, 28], [6, 5]]
-    },
-    {
-      id: 'S11',
-      type: 0,
-      active: false,
-      data: [[62.5, 1], [6, 3]]
-    },
-    {
-      id: 'S12',
-      type: 0,
-      active: false,
-      data: [[62.5, 5], [6, 3]]
-    },
-    {
-      id: 'S13',
-      type: 0,
-      active: false,
-      data: [[62.5, 9], [6, 3]]
-    },
-    {
-      id: 'S14',
-      type: 0,
-      active: false,
-      data: [[62.5, 13], [6, 3]]
-    },
-    {
-      id: 'S15',
-      type: 0,
-      active: false,
-      data: [[62.5, 19], [6, 3]]
-    },
-    {
-      id: 'S16',
-      type: 0,
-      active: false,
-      data: [[62.5, 23], [6, 3]]
-    },
-    {
-      id: 'S17',
-      type: 0,
-      active: false,
-      data: [[62.5, 27], [6, 3]]
-    },
-    {
-      id: 'S18',
-      type: 0,
-      active: false,
-      data: [[62.5, 31], [6, 3]]
-    },
-    {
-      id: 'J01',
-      type: 1,
-      active: false,
-      data: [[25, 10], [3, 1]]
-    },
-    {
-      id: 'J02',
-      type: 1,
-      active: false,
-      data: [[25, 22], [3, 1]]
-    },
-    {
-      id: 'J03',
-      type: 1,
-      active: false,
-      data: [[41, 6], [3, 1]]
-    },
-    {
-      id: 'J04',
-      type: 1,
-      active: false,
-      data: [[41, 13], [3, 1]]
-    },
-    {
-      id: 'J05',
-      type: 1,
-      active: false,
-      data: [[41, 19], [3, 1]]
-    },
-    {
-      id: 'J06',
-      type: 1,
-      active: false,
-      data: [[41, 26], [3, 1]]
-    },
-    {
-      id: 'J07',
-      type: 1,
-      active: false,
-      data: [[56, 2], [3, 1]]
-    },
-    {
-      id: 'J08',
-      type: 1,
-      active: false,
-      data: [[56, 6], [3, 1]]
-    },
-    {
-      id: 'J09',
-      type: 1,
-      active: false,
-      data: [[56, 10], [3, 1]]
-    },
-    {
-      id: 'J10',
-      type: 1,
-      active: false,
-      data: [[56, 14], [3, 1]]
-    },
-    {
-      id: 'J11',
-      type: 1,
-      active: false,
-      data: [[56, 18], [3, 1]]
-    },
-    {
-      id: 'J12',
-      type: 1,
-      active: false,
-      data: [[56, 22], [3, 1]]
-    },
-    {
-      id: 'J13',
-      type: 1,
-      active: false,
-      data: [[56, 26], [3, 1]]
-    },
-    {
-      id: 'J14',
-      type: 1,
-      active: false,
-      data: [[56, 30], [3, 1]]
-    }
-  ]
-
-  private textList = [{
-    text: '01',
-    x: 73.5,
-    y: -0.5
-  }, {
-    text: '02',
-    x: 73.5,
-    y: 1.5
-  }, {
-    text: '03',
-    x: 73.5,
-    y: 3.5
-  }, {
-    text: '04',
-    x: 73.5,
-    y: 5.5
-  }, {
-    text: '05',
-    x: 73.5,
-    y: 7.5
-  }, {
-    text: '06',
-    x: 73.5,
-    y: 9.5
-  }, {
-    text: '07',
-    x: 73.5,
-    y: 11.5
-  }, {
-    text: '08',
-    x: 73.5,
-    y: 13.5
-  }, {
-    text: '09',
-    x: 73.5,
-    y: 17.5
-  }, {
-    text: '10',
-    x: 73.5,
-    y: 19.5
-  }, {
-    text: '11',
-    x: 73.5,
-    y: 21.5
-  }, {
-    text: '12',
-    x: 73.5,
-    y: 23.5
-  }, {
-    text: '13',
-    x: 73.5,
-    y: 25.5
-  }, {
-    text: '14',
-    x: 73.5,
-    y: 27.5
-  }, {
-    text: '15',
-    x: 73.5,
-    y: 29.5
-  }, {
-    text: '16',
-    x: 73.5,
-    y: 31.5
-  }];
-
   private switchList: { id?: string, active?: boolean, target: Phaser.GameObjects.RenderTexture, track: { active?: boolean } }[] = [];
   private spriteList: { target: Phaser.GameObjects.Rectangle, overlapCount: number, id?: string }[] = [];
   private retarderList: { target: Phaser.GameObjects.Sprite }[] = []
 
   create() {
 
-    this.add.tileSprite(0, 0, 1320, 720, "background").setOrigin(0,0).setAlpha(0.5);
+    this.add.tileSprite(0, 0, 1320, 720, "background").setOrigin(0, 0).setAlpha(0.5);
 
-
-    const rt = this.add.renderTexture(0, 0, 1320 * 2, 720 * 2).setOrigin(0,0).setScale(0.5);
+    const rt = this.add.renderTexture(0, 0, 1320 * 2, 720 * 2).setOrigin(0, 0).setScale(0.5);
 
     rt.beginDraw();
 
     for (const item of treeData) {
-      rt.batchDraw('tree0', (this.offsetX + (item[0]-0.5) * this.gridSize) * 2, (this.offsetY + (item[1]-0.5) * this.gridSize) * 2);
+      rt.batchDraw('tree0', (this.offsetX + (item[0] - 0.5) * this.gridSize) * 2, (this.offsetY + (item[1] - 0.5) * this.gridSize) * 2);
     }
 
     let i = 2;
     for (const item of houseData) {
-      rt.batchDraw('house' + i++ % 8, (this.offsetX + (item[0]-0.5) * this.gridSize) * 2, (this.offsetY + (item[1]-0.5) * this.gridSize) * 2);
+      rt.batchDraw('house' + i++ % 8, (this.offsetX + (item[0] - 0.5) * this.gridSize) * 2, (this.offsetY + (item[1] - 0.5) * this.gridSize) * 2);
     }
 
     rt.endDraw();
 
-    for (const track of this.trackData) {
+    for (const track of trackData) {
       const { curve, points, tangents } = getCurveData(track.data.map(d => d.map(v => v * this.gridSize)));
 
-      /*
-      const group = this.add.group();
-      for (let i = 0; i < points.length; i++) {
-        const p = points[i];
-
-        group.create(this.offsetX + p.x, this.offsetY + p.y, 'track0').setScale(0.5).setRotation(tangents[i].angle());
-      }
-      */
-      const group = this.add.renderTexture(0, 0, 1320, 720).setOrigin(0,0);
+      const group = this.add.renderTexture(0, 0, 1320, 720).setOrigin(0, 0);
       group.beginDraw();
       for (let i = 0; i < points.length; i++) {
         const p = points[i];
-        const image = this.add.image(this.offsetX + p.x, this.offsetY + p.y, 'track0').setScale(0.5).setRotation(tangents[i].angle())
-        group.batchDraw(image, image.x, image.y);
+        const image = this.add.image(0, 0, 'track0').setScale(0.5).setRotation(tangents[i].angle());
+        group.batchDraw(image, this.offsetX + p.x, this.offsetY + p.y);
         image.destroy();
       }
       group.endDraw();
@@ -801,7 +123,7 @@ class Example extends Phaser.Scene {
       );
     }
 
-    for (const sprite of this.spriteData) {
+    for (const sprite of spriteData) {
       if (sprite.type === 0) {
         const target = this.add.rectangle(this.offsetX + sprite.data[0][0] * this.gridSize, this.offsetY + sprite.data[0][1] * this.gridSize, sprite.data[1][0] * this.gridSize, sprite.data[1][1] * this.gridSize, 0xff0000, 0);
 
@@ -824,7 +146,7 @@ class Example extends Phaser.Scene {
             return;
           }
           if (sprite.connect) {
-            const connect = this.spriteData.find(s => s.id === sprite.connect);
+            const connect = spriteData.find(s => s.id === sprite.connect);
             if (connect) {
               let flag = false;
               this.spriteList.filter(s => s.id === sprite.connect).forEach(s => {
@@ -839,7 +161,7 @@ class Example extends Phaser.Scene {
           }
           if (sprite.exclude) {
             let flag = false;
-            this.spriteData.filter(s => s.id === sprite.exclude).forEach(s => {
+            spriteData.filter(s => s.id === sprite.exclude).forEach(s => {
               if (s.active) {
                 flag = true;
               }
@@ -861,7 +183,7 @@ class Example extends Phaser.Scene {
             }
           });
           if (sprite.connect) {
-            const connect = this.spriteData.find(s => s.id === sprite.connect);
+            const connect = spriteData.find(s => s.id === sprite.connect);
             if (connect) {
               connect.active = !connect.active;
             }
@@ -919,8 +241,8 @@ class Example extends Phaser.Scene {
       }
     }
 
-    for (const text of this.textList) {
-      this.add.text(this.offsetX + text.x * this.gridSize, this.offsetY + text.y * this.gridSize, text.text, { color: '#ffffff', fontSize: '14px', fontFamily: 'Arial', fontStyle: 'bold' });
+    for (const text of textList) {
+      this.add.text(this.offsetX + text.x * this.gridSize, this.offsetY + text.y * this.gridSize, text.text, { color: '#B0BEC5', fontSize: '14px', fontFamily: 'Arial', fontStyle: 'bold' });
 
       const end = this.add.rectangle(this.offsetX + (text.x - 1.5) * this.gridSize, this.offsetY + (text.y + 0.5) * this.gridSize, 2 * this.gridSize, 2 * this.gridSize, 0xff0000, 0);
       end.setData('id', text.text);
@@ -928,14 +250,47 @@ class Example extends Phaser.Scene {
       this.endList.push(end);
     }
 
-    this.add.text(660, 40, "驼峰模拟器", { color: '#ffffff', fontSize: '24px', fontFamily: 'Arial', fontStyle: 'bold' }).setOrigin(0.5, 0.5);
-    this.add.text(40, 60, "时间：", { color: '#ffffff', fontSize: '18px', fontFamily: 'Arial', fontStyle: 'bold' }).setOrigin(0, 0.5);
-    this.add.text(1100, 60, "分数：", { color: '#ffffff', fontSize: '18px', fontFamily: 'Arial', fontStyle: 'bold' }).setOrigin(0, 0.5);
-    const timer = this.add.text(100, 60, "0", { color: '#ffffff', fontSize: '20px', fontFamily: 'Arial', fontStyle: 'bold' }).setOrigin(0, 0.5);
-    const score = this.add.text(1280, 60, "0", { color: '#ffffff', fontSize: '20px', fontFamily: 'Arial', fontStyle: 'bold' }).setOrigin(1, 0.5);
+    this.add.text(660, 40, "驼峰模拟器之溜车达人", { color: '#CFD8DC', fontSize: '24px', fontFamily: 'Arial', fontStyle: 'bold' }).setOrigin(0.5, 0.5).setStroke('#607D8B', 8).setShadow(4, 4, '#263238', 2, true, false);
+    this.add.text(660, 80, "最高分：" + this.highestScore, { color: '#FFCCBC', fontSize: '18px', fontFamily: 'Arial', fontStyle: 'bold' }).setOrigin(0.5, 0.5).setStroke('#BF360C', 6).setShadow(4, 4, '#263238', 2, true, false);
 
-    this.alarm0 = this.add.text(this.offsetX + this.gridSize * 4, this.offsetY + this.gridSize * 7, "当前还能放置16列车", { color: '#ffffff', fontSize: '16px', fontFamily: 'Arial', fontStyle: 'bold' }).setOrigin(0.5, 0.5);
-    this.alarm1 = this.add.text(this.offsetX + this.gridSize * 4, this.offsetY + this.gridSize * 25, "当前还能放置16列车", { color: '#ffffff', fontSize: '16px', fontFamily: 'Arial', fontStyle: 'bold' }).setOrigin(0.5, 0.5);
+    this.add.text(40, 60, "时间：", { color: '#BBDEFB', fontSize: '18px', fontFamily: 'Arial', fontStyle: 'bold' }).setOrigin(0, 0.5).setStroke('#1976D2', 2).setShadow(4, 4, '#263238', 2, true, false);
+    this.add.text(1100, 60, "分数：", { color: '#FFF9C4', fontSize: '18px', fontFamily: 'Arial', fontStyle: 'bold' }).setOrigin(0, 0.5).setStroke('#F9A825', 2).setShadow(4, 4, '#263238', 2, true, false);
+    const timer = this.add.text(100, 60, "0", { color: '#BBDEFB', fontSize: '20px', fontFamily: 'Arial', fontStyle: 'bold' }).setOrigin(0, 0.5).setStroke('#1976D2', 2).setShadow(4, 4, '#263238', 2, true, false);
+    const score = this.add.text(1280, 60, "0", { color: '#FFF9C4', fontSize: '20px', fontFamily: 'Arial', fontStyle: 'bold' }).setOrigin(1, 0.5).setStroke('#F9A825', 2).setShadow(4, 4, '#263238', 2, true, false);
+
+    this.score = {
+      text: score,
+      value: 0
+    };
+    this.timer = {
+      text: timer,
+      value: 0
+    };
+
+    this.add.text(140, 170, "溜放计数：", { color: '#BCAAA4', fontSize: '14px', fontFamily: 'Arial', fontStyle: 'bold' }).setOrigin(0, 0.5).setStroke('#5D4037', 2).setShadow(4, 4, '#263238', 2, true, false);
+    this.add.text(280, 170, "成功计数：", { color: '#BCAAA4', fontSize: '14px', fontFamily: 'Arial', fontStyle: 'bold' }).setOrigin(0, 0.5).setStroke('#5D4037', 2).setShadow(4, 4, '#263238', 2, true, false);
+    this.add.text(140, 200, "当前连击：", { color: '#BCAAA4', fontSize: '14px', fontFamily: 'Arial', fontStyle: 'bold' }).setOrigin(0, 0.5).setStroke('#5D4037', 2).setShadow(4, 4, '#263238', 2, true, false);
+    this.add.text(280, 200, "最高连击：", { color: '#BCAAA4', fontSize: '14px', fontFamily: 'Arial', fontStyle: 'bold' }).setOrigin(0, 0.5).setStroke('#5D4037', 2).setShadow(4, 4, '#263238', 2, true, false);
+
+    this.trainCount = {
+      text: this.add.text(220, 170, "0", { color: '#BCAAA4', fontSize: '14px', fontFamily: 'Arial', fontStyle: 'bold' }).setOrigin(0, 0.5).setStroke('#5D4037', 2).setShadow(4, 4, '#263238', 2, true, false),
+      value: 0
+    }
+    this.succeedCount = {
+      text: this.add.text(360, 170, "0", { color: '#BCAAA4', fontSize: '14px', fontFamily: 'Arial', fontStyle: 'bold' }).setOrigin(0, 0.5).setStroke('#5D4037', 2).setShadow(4, 4, '#263238', 2, true, false),
+      value: 0
+    }
+    this.comboCount = {
+      text: this.add.text(220, 200, "0", { color: '#BCAAA4', fontSize: '14px', fontFamily: 'Arial', fontStyle: 'bold' }).setOrigin(0, 0.5).setStroke('#5D4037', 2).setShadow(4, 4, '#263238', 2, true, false),
+      value: 0
+    }
+    this.comboHighestCount = {
+      text: this.add.text(360, 200, "0", { color: '#BCAAA4', fontSize: '14px', fontFamily: 'Arial', fontStyle: 'bold' }).setOrigin(0, 0.5).setStroke('#5D4037', 2).setShadow(4, 4, '#263238', 2, true, false),
+      value: 0
+    }
+
+    this.alarm0 = this.add.text(this.offsetX + this.gridSize * 4, this.offsetY + this.gridSize * 7, "当前还能放置16列车", { color: '#FFCDD2', fontSize: '16px', fontFamily: 'Arial', fontStyle: 'bold' }).setOrigin(0.5, 0.5).setStroke('#D32F2F', 2).setShadow(4, 4, '#263238', 2, true, false);
+    this.alarm1 = this.add.text(this.offsetX + this.gridSize * 4, this.offsetY + this.gridSize * 25, "当前还能放置16列车", { color: '#FFCDD2', fontSize: '16px', fontFamily: 'Arial', fontStyle: 'bold' }).setOrigin(0.5, 0.5).setStroke('#D32F2F', 2).setShadow(4, 4, '#263238', 2, true, false);
 
     this.alarm0.setScale(1).setData("fx", this.add.tween({
       duration: 400,
@@ -961,15 +316,6 @@ class Example extends Phaser.Scene {
       repeat: -1,
       paused: true
     }));
-
-    this.score = {
-      text: score,
-      value: 0
-    };
-    this.timer = {
-      text: timer,
-      value: 0
-    };
 
     this.time.addEvent({
       repeat: -1, delay: 1000, callback: () => {
@@ -1008,6 +354,13 @@ class Example extends Phaser.Scene {
           item.text.setPosition(this.offsetX + -4 * this.gridSize, this.offsetY + (12 - this.readyList0.indexOf(item) * 1) * this.gridSize);
         }
         this.alarm0?.setText("当前还能放置" + (16 - this.readyList0.length) + "列车");
+        if (this.readyList0.length > 10) {
+          (this.alarm0?.getData("fx") as Phaser.Tweens.Tween).restart().play();
+        } else {
+          (this.alarm0?.getData("fx") as Phaser.Tweens.Tween).seek(0.1).pause();
+        }
+
+        this.changeTrainCount(this.trainCount ? this.trainCount.value + 1 : 1);
 
         const sound = this.sound.add('beep').setVolume(0.2)
         sound.play();
@@ -1044,6 +397,13 @@ class Example extends Phaser.Scene {
           item.text.setPosition(this.offsetX + -4 * this.gridSize, this.offsetY + (20 + this.readyList1.indexOf(item) * 1) * this.gridSize);
         }
         this.alarm1?.setText("当前还能放置" + (16 - this.readyList1.length) + "列车");
+        if (this.readyList1.length > 10) {
+          (this.alarm1?.getData("fx") as Phaser.Tweens.Tween).restart().play();
+        } else {
+          (this.alarm1?.getData("fx") as Phaser.Tweens.Tween).seek(0.1).pause();
+        }
+
+        this.changeTrainCount(this.trainCount ? this.trainCount.value + 1 : 1);
 
         const sound = this.sound.add('beep').setVolume(0.2)
         sound.play();
@@ -1056,7 +416,6 @@ class Example extends Phaser.Scene {
     this.button1 = button1;
 
     const music = this.sound.add('bgm').setLoop(true).setVolume(0.5);
-    music.play();
 
     const railsound = this.sound.add('railway').setVolume(0.2);
 
@@ -1067,6 +426,8 @@ class Example extends Phaser.Scene {
       this.add.pointlight(this.offsetX + (light[0] - 0.2) * this.gridSize, this.offsetY + (light[1] - 0.1) * this.gridSize, 0x2244FF, 16, 0.2);
       this.add.image(this.offsetX + light[0] * this.gridSize, this.offsetY + light[1] * this.gridSize, 'light0').setScale(0.5);
     }
+
+    this.preStart();
 
     /*
     const list: [number, number][] = [];
@@ -1104,6 +465,52 @@ class Example extends Phaser.Scene {
     text: Phaser.GameObjects.Text,
     value: number
   } | undefined;
+  private succeedCount: {
+    text: Phaser.GameObjects.Text,
+    value: number
+  } | undefined;
+  private comboCount: {
+    text: Phaser.GameObjects.Text,
+    value: number
+  } | undefined;
+  private comboHighestCount: {
+    text: Phaser.GameObjects.Text,
+    value: number
+  } | undefined;
+
+  private changeTrainCount(value:number){
+    if(this.trainCount){
+      this.trainCount.value = value;
+      this.trainCount.text.setText(this.trainCount.value.toString());
+    }
+  }
+
+  private changesucceedCount(value:number){
+    if(this.succeedCount){
+      this.succeedCount.value = value;
+      this.succeedCount.text.setText(this.succeedCount.value.toString());
+    }
+  }
+
+  private changeComboCount(value:number){
+    if(this.comboCount){
+      this.comboCount.value = value;
+      this.comboCount.text.setText(this.comboCount.value.toString());
+      if(this.comboHighestCount && value > this.comboHighestCount.value){
+        this.comboHighestCount.value = value;
+        this.comboHighestCount.text.setText(value.toString());
+      }
+    }
+  }
+
+  private highestScore:number = localStorage.getItem("highestScore") ? parseInt(localStorage.getItem("highestScore") as string) : 0;
+  private updateHighestScore = () => {
+    if(this.score && this.score.value > this.highestScore){
+      this.highestScore = this.score.value;
+      localStorage.setItem("highestScore", this.highestScore.toString());
+    }
+  }
+
   private endList: Phaser.GameObjects.Rectangle[] = [];
 
   private trainData = [{
@@ -1115,33 +522,33 @@ class Example extends Phaser.Scene {
     score: 1000,
     altscore: -200,
     failscore: -2000,
-  },{
+  }, {
     texture: 'train1',
     color: '#63b04c',
-    speed: 0.1,
-    acc: -0.0002,
-    accretarder: -0.2,
-    score: 1000,
-    altscore: -200,
-    failscore: -2000,
-  },{
+    speed: 0.12,
+    acc: -0.00016,
+    accretarder: -0.15,
+    score: 600,
+    altscore: 200,
+    failscore: -1000,
+  }, {
     texture: 'train2',
     color: '#bbe1fb',
-    speed: 0.1,
-    acc: -0.0002,
-    accretarder: -0.2,
-    score: 1000,
-    altscore: -200,
-    failscore: -2000,
-  },{
+    speed: 0.08,
+    acc: -0.00022,
+    accretarder: -0.24,
+    score: 2000,
+    altscore: -500,
+    failscore: -5000,
+  }, {
     texture: 'train3',
     color: '#f0ca7a',
-    speed: 0.1,
-    acc: -0.0002,
-    accretarder: -0.2,
-    score: 1000,
-    altscore: -200,
-    failscore: -2000,
+    speed: 0.15,
+    acc: -0.00012,
+    accretarder: -0.18,
+    score: 1500,
+    altscore: -400,
+    failscore: -3000,
   }];
 
   private trainList: {
@@ -1158,12 +565,27 @@ class Example extends Phaser.Scene {
   }[] = [];
 
   private count = 0;
+  private isFinished = false;
 
   update() {
+
+    if (this.isFinished) {
+      return;
+    }
+
+    for (const target of this.spriteList) {
+      target.target.setData('overlap', target.overlapCount <= 0);
+      target.overlapCount = 1;
+    }
 
     if (this.timer?.value) {
       const value = this.timer.value;
       if (this.readyList0.length <= 16 && 120 / (value + 60) * Math.random() < 0.02 / this.readyList0.length) {
+        if (this.readyList0.length === 16) {
+          this.finished();
+          this.isFinished = true;
+          return;
+        }
         let dest = Math.floor(Math.random() * 16 + 1).toFixed(0);
         if (dest.length === 1) {
           dest = "0" + dest;
@@ -1179,9 +601,16 @@ class Example extends Phaser.Scene {
         this.alarm0?.setText("当前还能放置" + (16 - this.readyList0.length) + "列车");
         if (this.readyList0.length > 10) {
           (this.alarm0?.getData("fx") as Phaser.Tweens.Tween).restart().play();
+        } else {
+          (this.alarm0?.getData("fx") as Phaser.Tweens.Tween).seek(0.1).pause();
         }
       }
       if (this.readyList1.length <= 16 && 120 / (value + 60) * Math.random() < 0.02 / this.readyList1.length) {
+        if (this.readyList1.length === 16) {
+          this.finished();
+          this.isFinished = true;
+          return;
+        }
         let dest = Math.floor(Math.random() * 16 + 1).toFixed(0);
         if (dest.length === 1) {
           dest = "0" + dest;
@@ -1197,19 +626,16 @@ class Example extends Phaser.Scene {
         this.alarm1?.setText("当前还能放置" + (16 - this.readyList1.length) + "列车");
         if (this.readyList1.length > 10) {
           (this.alarm1?.getData("fx") as Phaser.Tweens.Tween).restart().play();
+        } else {
+          (this.alarm1?.getData("fx") as Phaser.Tweens.Tween).seek(0.1).pause();
         }
       }
-    }
-
-    for (const target of this.spriteList) {
-      target.target.setData('overlap', target.overlapCount <= 0);
-      target.overlapCount = 1;
     }
 
     if (this.readyList.length > 0) {
       const start = this.readyList[0];
       this.readyList.splice(0, 1);
-      const head = this.trackData[start.start];
+      const head = trackData[start.start];
       if (head.curveData) {
 
         const ox = this.offsetX + head.data[0][0] * this.gridSize;
@@ -1294,15 +720,24 @@ class Example extends Phaser.Scene {
               );
 
               if (this.score) {
+                const add = success ? score + Math.min(this.comboCount?.value || 0, 10) * score * 0.1 : score;
                 this.add.tween({
                   duration: 500,
                   targets: this.score.text,
                   text: {
                     from: this.score.value,
-                    to: this.score.value + score
+                    to: this.score.value + add
                   },
                 });
-                this.score.value += score;
+                this.score.value += add;
+              }
+
+              if(success){
+                this.changesucceedCount(this.succeedCount ? this.succeedCount.value + 1 : 0);
+                this.changeComboCount(this.comboCount ? this.comboCount.value + 1 : 0);
+              }
+              else{
+                this.changeComboCount(0);
               }
 
               const sound = this.sound.add(success ? 'succeed' : 'alt').setVolume(0.5)
@@ -1373,6 +808,9 @@ class Example extends Phaser.Scene {
         sprite.setData('acc1', 0);
 
         const onUpdate = (t: Phaser.Tweens.Tween) => {
+          if (this.isFinished) {
+            t.stop();
+          }
           const curve = sprite.getData("curve");
           if (!curve) {
             return;
@@ -1390,7 +828,7 @@ class Example extends Phaser.Scene {
             return;
           }
           if (train) {
-            const nextTrack = this.trackData.find(t => (t.type === 0 || t.active) && t.data[0][0] === train.tail[0] && t.data[0][1] === train.tail[1]);
+            const nextTrack = trackData.find(t => (t.type === 0 || t.active) && t.data[0][0] === train.tail[0] && t.data[0][1] === train.tail[1]);
             if (nextTrack && nextTrack.curveData) {
 
               const acc0 = sprite.getData('acc0');
@@ -1434,9 +872,99 @@ class Example extends Phaser.Scene {
         });
       }
     }
+
     for (const train of this.trainList) {
       train.text.setPosition(train.sprite.x + 52 * Math.cos(train.sprite.rotation), train.sprite.y + 52 * Math.sin(train.sprite.rotation));
     }
+  }
+
+  private preStart = () => {
+    this.time.paused = true;
+
+    const manual = `
+你是一名货运站场调车长，你的任务是尽快将列车溜放到正确的轨道上。
+你可以通过点击开始溜放按钮来溜放列车，然后点击道岔来控制列车前进方向。
+成功将列车送入轨道将获得分数奖励，送错轨道将会扣分。
+启动轨道上的减速器可以大幅降低车速，但千万注意不要发生撞车事故哦！
+    `;
+
+    const panel0 = this.add.rectangle(0, 0, 1320, 720, 0x000000, 0.7).setOrigin(0, 0).setDepth(100).setInteractive();
+    const panel1 = this.add.container(1320 / 2, 720 / 2, [
+      this.add.graphics().fillRoundedRect(-300, -220, 600, 400, 32).fillStyle(0x000000, 1),
+      this.add.text(0, -160, "溜车达人", { color: '#ECEFF1', fontSize: '32px', fontFamily: 'Arial', fontStyle: 'bold' }).setOrigin(0.5, 0.5).setStroke('#607D8B', 8).setShadow(4, 4, '#263238', 2, true, false),
+      this.add.text(0, -130, manual, { color: '#E1F5FE', fontSize: '16px', fontFamily: 'Arial', fontStyle: 'bold', lineSpacing: 8 }).setOrigin(0.5, 0).setStroke('#0D47A1', 2).setShadow(4, 4, '#263238', 2, true, false).setWordWrapWidth(420, true),
+      this.add.container(0, 120, [
+        this.add.graphics().fillStyle(0xB0BEC5, 1).fillRoundedRect(-72, -30, 144, 60, 12),
+        this.add.text(0, 0, "开始游戏", { color: '#223366', fontSize: '24px', fontFamily: 'Arial', fontStyle: 'bold' }).setOrigin(0.5, 0.5)
+      ]).setDepth(102).setSize(80, 30).setInteractive({ cursor: 'pointer' })
+        .on('pointerdown', function (this: Phaser.GameObjects.Text) {
+          this.setAlpha(0.5);
+        })
+        .on('pointerout', function (this: Phaser.GameObjects.Text) {
+          this.setAlpha(1);
+        })
+        .on('pointerup', () => {
+
+          panel0.destroy();
+          panel1.destroy();
+
+          this.start();
+        })
+    ]).setDepth(101);
+  }
+
+  private start = () => {
+    this.time.paused = false;
+    this.bgm?.play();
+  }
+
+  private finished = () => {
+    this.bgm?.stop();
+    this.railsound?.stop();
+    this.time.paused = true;
+
+    const sound = this.sound.add('fail').setVolume(0.5);
+    sound.play();
+    sound.on('complete', () => {
+      sound.destroy();
+    });
+
+    this.physics.shutdown();
+
+    this.updateHighestScore();
+
+    const button = this.add.container(0, 120, [
+      this.add.graphics().fillStyle(0xB0BEC5, 1).fillRoundedRect(-72, -30, 144, 60, 12),
+      this.add.text(0, 0, "重新开始", { color: '#223366', fontSize: '24px', fontFamily: 'Arial', fontStyle: 'bold' }).setOrigin(0.5, 0.5)
+    ]).setDepth(102).setSize(80, 30).setInteractive({ cursor: 'pointer' })
+      .on('pointerdown', function (this: Phaser.GameObjects.Text) {
+
+        this.setAlpha(0.5);
+
+        game.destroy(true);
+
+        document.addEventListener('mousedown', function newGame() {
+          game = new Phaser.Game(config);
+          document.removeEventListener('mousedown', newGame);
+        });
+      });
+
+    this.add.rectangle(0, 0, 1320, 720, 0x000000, 0.7).setOrigin(0, 0).setDepth(100).setInteractive();
+    this.add.container(1320 / 2, 720 / 2, [
+      this.add.graphics().fillRoundedRect(-300, -220, 600, 400, 32).fillStyle(0x000000, 1),
+      this.add.text(0, -160, "游戏结束", { color: '#ECEFF1', fontSize: '32px', fontFamily: 'Arial', fontStyle: 'bold' }).setOrigin(0.5, 0.5).setStroke('#607D8B', 8).setShadow(4, 4, '#263238', 2, true, false),
+      this.add.text(-120, -80, "游戏得分：", { color: '#E1F5FE', fontSize: '18px', fontFamily: 'Arial', fontStyle: 'bold' }).setOrigin(0, 0.5).setStroke('#0D47A1', 2).setShadow(4, 4, '#263238', 2, true, false),
+      this.add.text(-120, -40, "成功溜放：", { color: '#E1F5FE', fontSize: '18px', fontFamily: 'Arial', fontStyle: 'bold' }).setOrigin(0, 0.5).setStroke('#0D47A1', 2).setShadow(4, 4, '#263238', 2, true, false),
+      this.add.text(-120, 0, "失败溜放：", { color: '#E1F5FE', fontSize: '18px', fontFamily: 'Arial', fontStyle: 'bold' }).setOrigin(0, 0.5).setStroke('#0D47A1', 2).setShadow(4, 4, '#263238', 2, true, false),
+      this.add.text(-120, 40, "最高连击：", { color: '#E1F5FE', fontSize: '18px', fontFamily: 'Arial', fontStyle: 'bold' }).setOrigin(0, 0.5).setStroke('#0D47A1', 2).setShadow(4, 4, '#263238', 2, true, false),
+
+      this.add.text(120, -80, this.score?.value?.toString() || "0", { color: '#E1F5FE', fontSize: '18px', fontFamily: 'Arial', fontStyle: 'bold' }).setOrigin(1, 0.5).setStroke('#0D47A1', 2).setShadow(4, 4, '#263238', 2, true, false),
+      this.add.text(120, -40, this.succeedCount?.value?.toString() || "0", { color: '#E1F5FE', fontSize: '18px', fontFamily: 'Arial', fontStyle: 'bold' }).setOrigin(1, 0.5).setStroke('#0D47A1', 2).setShadow(4, 4, '#263238', 2, true, false),
+      this.add.text(120, 0, this.trainCount && this.succeedCount ? (this.trainCount.value - this.succeedCount.value).toString() : "0", { color: '#E1F5FE', fontSize: '18px', fontFamily: 'Arial', fontStyle: 'bold' }).setOrigin(1, 0.5).setStroke('#0D47A1', 2).setShadow(4, 4, '#263238', 2, true, false),
+      this.add.text(120, 40, this.comboHighestCount?.value?.toString() || "0", { color: '#E1F5FE', fontSize: '18px', fontFamily: 'Arial', fontStyle: 'bold' }).setOrigin(1, 0.5).setStroke('#0D47A1', 2).setShadow(4, 4, '#263238', 2, true, false),
+
+      button
+    ]).setDepth(101);
   }
 
   private failed = (sprite: Phaser.GameObjects.Sprite, train?: typeof this.trainList[number]) => {
@@ -1450,6 +978,8 @@ class Example extends Phaser.Scene {
         },
       });
       this.score.value += train?.failscore;
+
+      this.changeComboCount(0);
 
       const flame = this.add.particles(sprite.x + 16, sprite.y, 'flares',
         {
@@ -1495,4 +1025,4 @@ const config = {
   scene: Example
 };
 
-new Phaser.Game(config);
+let game = new Phaser.Game(config);
