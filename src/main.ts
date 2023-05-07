@@ -289,6 +289,8 @@ class Example extends Phaser.Scene {
       value: 0
     }
 
+    this.add.text(this.offsetX + this.gridSize * -2, this.offsetY + this.gridSize * 12, "◀︎", { color: '#EF5350', fontSize: '12px', fontFamily: 'Arial', fontStyle: 'bold' }).setOrigin(0, 0.5);
+    this.add.text(this.offsetX + this.gridSize * -2, this.offsetY + this.gridSize * 20, "◀︎", { color: '#EF5350', fontSize: '12px', fontFamily: 'Arial', fontStyle: 'bold' }).setOrigin(0, 0.5);
     this.alarm0 = this.add.text(this.offsetX + this.gridSize * 4, this.offsetY + this.gridSize * 7, "当前还能放置16列车", { color: '#FFCDD2', fontSize: '16px', fontFamily: 'Arial', fontStyle: 'bold' }).setOrigin(0.5, 0.5).setStroke('#D32F2F', 2).setShadow(4, 4, '#263238', 2, true, false);
     this.alarm1 = this.add.text(this.offsetX + this.gridSize * 4, this.offsetY + this.gridSize * 25, "当前还能放置16列车", { color: '#FFCDD2', fontSize: '16px', fontFamily: 'Arial', fontStyle: 'bold' }).setOrigin(0.5, 0.5).setStroke('#D32F2F', 2).setShadow(4, 4, '#263238', 2, true, false);
 
